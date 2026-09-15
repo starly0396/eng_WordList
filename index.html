@@ -228,10 +228,14 @@
     function change() {
       mode[0] = quest.value;
       mode[1] = answer.value;
-      q.replaceChildren();
-      reset.classList.replace('on','off');
-      check.classList.replace('off','on');
-      roll();
+      if (show_WL.innerHTML == "단어보기"){
+        reset.classList.replace('on','off');
+        check.classList.replace('off','on');
+        q.replaceChildren();
+        roll();
+      }
+      else:
+        show_WL_f()
     }
 
     part.addEventListener('change',()=>{
@@ -290,8 +294,6 @@
         show_WL.innerHTML = "문제풀기";
         reset.classList.replace('on','off');
         check.classList.replace('on','off');
-        q.replaceChildren();
-        roll()
       }
       else{
         show_WL.innerHTML = "단어보기";
