@@ -177,6 +177,7 @@
       ["take place","?","일이 일어나다,일어나다","to happen"],
       ["what's more","?","게다가,더욱이","used to add a point that is even more important"]
 ]];
+    let qu_lamda = [];
     
     const q = document.getElementById('q');
     const check = document.getElementById('check');
@@ -194,7 +195,7 @@
     const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"}
     
     function roll() {
-      let qu_lamda = quList[qu_val];
+      qu_lamda = quList[qu_val].slice();
       qu_lamda.sort(()=>Math.random()-0.5);
 
       qu_lamda.forEach((word,index)=>{
@@ -234,12 +235,21 @@
         q.replaceChildren();
         roll();
       }
-      else:
+      else{
+        show_WL.innerHTML = "단어보기";
         show_WL_f()
+      }
     }
 
     part.addEventListener('change',()=>{
-      load(part.value);
+      if (show_WL.innerHTML == "단어보기"){
+        load(part.value);
+      }
+      else {
+        qu_val = part.value;
+        show_WL.innerHTML = "단어보기";
+        show_WL_f();
+      }
     })
     
     function ch() {
@@ -247,7 +257,7 @@
         window.scrollTo(0, 0);
         check.classList.replace('on','off');
         reset.classList.replace('off','on');
-        quList[qu_val].forEach((word,index)=>{
+        qu_lamda.forEach((word,index)=>{
           let cor = word[mode[1]].split(',').map(item => item.trim());
           if (cor.includes(document.getElementById(index).value)) {
             document.getElementById(`row_${index}`).classList.add("correct");
@@ -269,6 +279,7 @@
         roll()
       }
     }
+    
     function show_WL_f(){
       if (show_WL.innerHTML == "단어보기") {
         q.replaceChildren();
@@ -304,7 +315,6 @@
       }
     }
 
-
     show_WL.addEventListener('click',show_WL_f);
   </script>  
-</html> 
+</html>
