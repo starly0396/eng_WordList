@@ -74,7 +74,7 @@
 
   <script>
     let qu_val = 0;
-    let mode = [0,1];
+    let mode = [0,2];
     // mode[0] to mode[1]
 
     const quList = [[
@@ -288,10 +288,18 @@
           q.appendChild(row);
         })
         show_WL.innerHTML = "문제풀기";
+        reset.classList.replace('on','off');
+        check.classList.replace('on','off');
+        q.replaceChildren();
+        roll()
       }
-      else:
-        load();
+      else{
         show_WL.innerHTML = "단어보기";
+        reset.classList.replace('on','off');
+        check.classList.replace('off','on');
+        q.replaceChildren();
+        roll()
+      }
     }
 
 
