@@ -42,11 +42,28 @@
 
   <body onload="load(0)">
     <div class="qlist">
-      <h1>영단어장_교과</h1>
+      <h1>영단어장_교과
       <select id="part">
           <option value=0>1단원</option>
           <option value=1>2단원</option>
       </select>
+      <button id="show_WL">단어보기</button>
+      </h1>
+      <div>
+        <select id="quest">
+          <option value=0>영어</option>
+          <option value=2>국어</option>
+          <option value=3>영영풀이</option>
+        </select>
+
+        To
+        <select id="answer">
+          <option value=0>영어</option>
+          <option value=1>품사</option>
+          <option value=2 selected>국어</option>
+          <option value=3>영영풀이</option>
+        </select>
+      </div>
       <div id="q"></div>
       <div>
         <button id="check" class="on">채점하다</button>
@@ -57,7 +74,7 @@
 
   <script>
     let qu_val = 0;
-    let mode = [0,2];
+    let mode = [0,1];
     // mode[0] to mode[1]
 
     const quList = [[
@@ -165,16 +182,22 @@
     const check = document.getElementById('check');
     const reset = document.getElementById('reset');
     const part = document.getElementById("part");
+    const quest = document.getElementById("quest");
+    const answer = document.getElementById("answer");
+    const show_WL = document.getElementById("show_WL");
 
     check.addEventListener('click',ch);
     reset.addEventListener('click',re);
+    quest.addEventListener('change',change);
+    answer.addEventListener('change',change);
     
     const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"}
     
     function roll() {
-      quList[qu_val].sort(()=>Math.random()-0.5);
+      let qu_lamda = quList[qu_val];
+      qu_lamda.sort(()=>Math.random()-0.5);
 
-      quList[qu_val].forEach((word,index)=>{
+      qu_lamda.forEach((word,index)=>{
         var row = document.createElement('div');
         var id = document.createElement('div');
         var input = document.createElement('input');
@@ -200,6 +223,15 @@
         check.classList.replace('off','on');
         qu_val = quN;
         roll();
+    }
+
+    function change() {
+      mode[0] = quest.value;
+      mode[1] = answer.value;
+      q.replaceChildren();
+      reset.classList.replace('on','off');
+      check.classList.replace('off','on');
+      roll();
     }
 
     part.addEventListener('change',()=>{
@@ -233,6 +265,36 @@
         roll()
       }
     }
-    
+    function show_WL_f(){
+      if (show_WL.innerHTML == "단어보기") {
+        q.replaceChildren();
+        
+        quList[qu_val].forEach((word,index)=>{
+          var row = document.createElement('div');
+          var id = document.createElement('div');
+          var value = document.createElement('div');
+  
+          row.style = "display:flex;margin:4px;border-bottom:solid 1px black;width:100%"
+          row.id = `row_${index}`
+          
+          id.innerHTML = `${word[mode[0]]}:`;
+          id.style = "width:30%";
+  
+          value.innerHTML = `${word[mode[1]]}`;
+          value.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%"
+          
+          row.appendChild(id);
+          row.appendChild(value);
+          q.appendChild(row);
+        })
+        show_WL.innerHTML = "문제풀기";
+      }
+      else:
+        load();
+        show_WL.innerHTML = "단어보기";
+    }
+
+
+    show_WL.addEventListener('click',show_WL_f);
   </script>  
 </html> 
