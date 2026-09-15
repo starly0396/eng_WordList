@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      div.qlist {
+        position : absolute;
+        transform : translateX(-50%);
+        left : 50%;
+        background-color : rgb(230,230,230);
+        border-radius : 16px;
+        width : 500px;
+
+        display : flex;
+        flex-direction : column;
+      }
+      div.q {
+        display : flex;
+        flex-direction : column;
+      }
+      button {
+        cursor : pointer;
+        border : solid 2px;
+        border-radius : 4px;
+        width : 60;
+        height : 60px;
+      }
+      .on {
+        background-color : rgb(250,250,250);
+      }
+      .off {
+        background-color : rgb(100,100,100);
+      }
+      .correct {
+        background-color : rgb(100,200,0);
+      }
+      .wrong {
+        background-color : rgb(200,10,0);
+      }
+    </style>
+  </head>
+
+  <body onload="load(0)">
+    <div class="qlist">
+      <h1>영단어장_교과</h1>
+      <select id="part">
+          <option value=0>1단원</option>
+          <option value=1>2단원</option>
+      </select>
+      <div id="q"></div>
+      <div>
+        <button id="check" class="on">채점하다</button>
+        <button id="reset" class="off">다시하다</button>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    let qu_val = 0;
+    let mode = [0,2];
+    // mode[0] to mode[1]
+
+    const quList = [[
+      ["admire", "v", "존경하다,동경하다", "to respect and like someone or their behavior"],
+      ["annual", "a", "매년의", "happening once a year"],
+      ["apply", "v", "지원하다", "to make a formal request for something such as a job, permission to do something, etc"],
+      ["athlete", "n", "운동선수", "someone who competes in sports competitions, especially running, jumping, and throwing"],
+      ["audience", "n", "청중,관객", "a group of people who come to watch and listen to someone speaking or performing in public"],
+      ["award", "n", "상", "a prize given to someone to reward them for something they have done"],
+      ["brave", "a", "용감한", "ready to face danger or challenges;showing courage"],
+      ["breathe", "v", "호흡하다", "to take air into your lungs and send it out again"],
+      ["chest", "n", "흉부,가슴", "a part of th upper human body, between the neck and the stomach"],
+      ["clek", "n", "점원,직원", "someone whose job is to help people in a shop"],
+      ["compete", "v", "참가하다,경기 등에 참가하다,경쟁하다", "to take part in a contest or game"],
+      ["consciousness", "n", "의식", "the state of being awake and able to use your senses"],
+      ["convenience", "n", "편의,편리", "the quality of being useful or suitable"],
+      ["courage", "n", "용기", "the qualit of being brave when facing a difficult or dangerous situation"],
+      ["decision", "n", "결정", "a choice that you make after consideration"],
+      ["definition", "n", "정의", "an explanation of the meaning of a word or phrase"],
+      ["deliver", "v", "하다,연설강연 등을 하다", "to say something officially or publicly"],
+      ["entire", "a", "전체의,전부의", "including everything, everyone, or every part"],
+      ["fear", "n", "두려움,공포", "the feeling you have when you are worried that something bad might happen"],
+      ["flashback", "n", "회상,회상 장면", "a sudden, very clear memory of something that happened to you in the past"],
+      ["fortunately", "ad", "다행이도", "by good luck"],
+      ["graduate", "v", "졸업하다", "to complete school, college, or university"],
+      ["immediately", "ad", "즉시", "without delay"],
+      ["injury", "n", "부상", "a wound or damage to part of your body"],
+      ["inspire", "v", "격려하다,고무하다", "to make someone feel that they want to do something and can do it"],
+      ["operator", "n", "전화 교환원", "a person whose job is to connect telephone calls"],
+      ["pain", "n", "통증,고통", "the feeling you have when part of your body hurts"],
+      ["paramedic", "n", "구급대원", "a person who is trained to do medical work, but who is not a doctor or nurse"],
+      ["perform", "v", "수행하다", "to do something difficult and useful"],
+      ["prevent", "v", "못하게 하다,막다", "to stop something from happening or someone from doing something"],
+      ["public", "a", "공개적인,대중을 위한", "open to people in general"],
+      ["pulse", "n", "맥박", "the regular beat of the heart as it sends blood around the body"],
+      ["regain", "v", "되찾다,회복하다", "to get back something that you have lost"],
+      ["related", "a", "관련된,~에 관련된", "connected in some way"],
+      ["scared", "a", "겁먹은,무서워하는", "frightened of something"],
+      ["sideline", "n", "측선,사이드라인", "boundary lines of a playing field or court"],
+      ["sudden", "a", "갑작스러운", "happening or done quickly and unexpectedly"],
+      ["treatment", "n", "치료,처치", "something that is done to cure an illness or injury"],
+      ["valuable", "a", "가치 있는,소중한", "very useful or important"],
+      ["come across", "?", "우연히 발견하다,마주치다", "to meet or find someone or something by chance"],
+      ["deal with", "?", "~을 다루다,다루다", "to be about something"],
+      ["instead of", "?", "~대신에,대신에", "in the place of someone or something"],
+      ["make a fool of", "?", "~을 웃음거리로 만들다,웃음거리로 만들다", "to do something stupid or embarrassing"],
+      ["make up one`s mind", "?", "결심하다", "to make a decision"],
+      ["put one`s mind to", "?", "~을 하기로 마음먹다,하기로 마음먹다", "to decide you want to achieve something and give it all your attention"],
+      ["shut out", "?", "차단하다,가로막다", "to prevent someone or something from entering a place"],
+      ["sign up for", "?", "~을 신청하다,신청하다,~에 가입하다,가입하다", "to put your name on a list for something because you want to take part in it"],
+      ["take over", "?", "넘겨받다,상황책임을 넘겨받다", "to take responsivility in place of somebody else"],
+      ["take the lead", "?", "선두에 서다", "to take a position that is ahead of others"],
+      ["track and field", "?", "육상 경기", "sports such as running, jumping, and throwing"]
+],[
+      ["adventure","n","모험","an exciting or dangerous experience, journey, or event"],
+      ["associated","a","연관된,관련된","connected with something else"],
+      ["attention","n","관심,주의","the interest tat people show in someone or something"],
+      ["author","n","작가,저자","someone who has written a book"],
+      ["chance","n","기회","the opportunity to do something"],
+      ["character","n","등장인물,품성","a person who appears in a book or film;someone's personality"],
+      ["despite","p","~에도 불구하고","without being affected by; regardless of"],
+      ["dig","v","(땅을)파다","to make a hole in the ground by moveing soil"],
+      ["exception","n","예외","something that does not follow a rule"],
+      ["excitement","n","신남,신나는 일","a feeling of being excited, or an exciting event"],
+      ["fantastic","a","환상적인","extremely good or excellent"],
+      ["government","n","정부,정권","a group of people responsible for controlling a country or a state"],
+      ["hint","v","암시를 주다","to suggest something indirectly"],
+      ["imaginary","a","가상의,상상의","not real; existing only in your mind or imagination"],
+      ["impression","n","인상","an opinion or feeling you have about someone or something"],
+      ["improve","v","개선하다,향상시키다","to make something better"],
+      ["irony","n","역석적인 점,아이러니","a funny or strange situation that is very different frm what you expect"],
+      ["limit","v","제한하다","to stop someone from doing what they want or developing deyond a particular point"],
+      ["locate","v","~에 위치를 두다","to find the exact position of someone or something"],
+      ["magical","a","마법의","reating to magic or being able to do magic"],
+      ["mysterious","a","불가사의한,이해하기 힘든","difficult to understand or explain; strange"],
+      ["normal","a","평범한,정상적인","usual or ordinary; not strange"],
+      ["powerful","a","강력한,강렬한","having great power or force; very effective"],
+      ["prison","n","감옥,교도소","a place where people are kept as punishment for crime"],
+      ["refuse","v","거부하다","to say that you will not do or accept something"],
+      ["remain","v","머무르다,남다","to stay in the same place without moving away"],
+      ["rest","n","나머지 사람들,나머지 것들","people or things that remain; the others"],
+      ["rule","n","규칙,원칙","the usual way things happen"],
+      ["state","v","말하다,진술하다","to formally say or write something"],
+      ["strike","v","치다,시계종이 치다,알리다,시간을 알리다","to make the time known by making a sound"],
+      ["successfully","ad","성공적으로","in a way tat achieves what was intended"],
+      ["surround","v","둘러싸다","to be all around someone or something"],
+      ["suspect","v","의심하다","to think that something is probably true"],
+      ["truth","n","진실,사실","the facts about something"],
+      ["typically","ad","보통,일반적으로","in general or normally"],
+      ["unexpected","a","예상 밖의,뜻밖의","not expected to happen"],
+      ["unusual","a","특이한,유별난","different from what is usual or normal"],
+      ["well-known","a","유명한,잘 알려진","known about by a lot of people"],
+      ["be about to","?","막 ~하려고 하다,하려고 하다","to be going to do something very soon"],
+      ["come to mind","?","생각이 떠오르다","to thingthink of an idea or answer"],
+      ["come up with","?","~을 생각해 내다,생각해 내다","to find or produce an answer"],
+      ["give in","?","굴복하다,항복하다","to stop trying to fight or resist something"],
+      ["in power","?","정권을 쥐고 있는","to have control or influence over others"],
+      ["in the end","?","마침내,결국","after a long period"],
+      ["out of the ordinary","?","특이한,색다른","unusual or exceptional"],
+      ["take place","?","일이 일어나다,일어나다","to happen"],
+      ["what's more","?","게다가,더욱이","used to add a point that is even more important"]
+]];
+    
+    const q = document.getElementById('q');
+    const check = document.getElementById('check');
+    const reset = document.getElementById('reset');
+    const part = document.getElementById("part");
+
+    check.addEventListener('click',ch);
+    reset.addEventListener('click',re);
+    
+    const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"}
+    
+    function roll() {
+      quList[qu_val].sort(()=>Math.random()-0.5);
+
+      quList[qu_val].forEach((word,index)=>{
+        var row = document.createElement('div');
+        var id = document.createElement('div');
+        var input = document.createElement('input');
+
+        row.style = "display:flex;margin:4px;border-bottom:solid 1px black;width:100%"
+        row.id = `row_${index}`
+        
+        id.innerHTML = `${word[mode[0]]}:`;
+        id.style = "width:30%";
+
+        input.id = index;
+        input.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%"
+        
+        row.appendChild(id);
+        row.appendChild(input);
+        q.appendChild(row)
+      })
+    }
+
+    function load(quN) {
+        q.replaceChildren();
+        reset.classList.replace('on','off');
+        check.classList.replace('off','on');
+        qu_val = quN;
+        roll();
+    }
+
+    part.addEventListener('change',()=>{
+      load(part.value);
+    })
+    
+    function ch() {
+      if (check.classList.contains('on')){
+        window.scrollTo(0, 0);
+        check.classList.replace('on','off');
+        reset.classList.replace('off','on');
+        quList[qu_val].forEach((word,index)=>{
+          let cor = word[mode[1]].split(',').map(item => item.trim());
+          if (cor.includes(document.getElementById(index).value)) {
+            document.getElementById(`row_${index}`).classList.add("correct");
+          }
+          else {
+            document.getElementById(`row_${index}`).classList.add("wrong");
+            document.getElementById(index).value = word[mode[1]]
+          }
+        })
+      }
+    }
+    
+    function re() {
+      if (reset.classList.contains('on')){
+        window.scrollTo(0, 0);
+        reset.classList.replace('on','off');
+        check.classList.replace('off','on');
+        q.replaceChildren();
+        roll()
+      }
+    }
+    
+  </script>  
+</html> 
