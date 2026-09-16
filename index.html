@@ -16,6 +16,7 @@
         background-color : rgb(230,230,230);
         border-radius : 16px;
         width : 500px;
+        border : solid 1px black;
 
         display : flex;
         flex-direction : column;
@@ -92,6 +93,12 @@
           <option value=2 selected>국어</option>
           <option value=3>영영풀이</option>
         </select>
+        Filter
+        <select id="filter">
+          <option value=0>맞춘 것만 보기</option>
+          <option value=1>틀린 것만 보기</option>
+          <option value=2 selected>모두 보기</option>
+        </select>
       </div>
       <div id="q"></div>
       <div>
@@ -107,6 +114,7 @@
   <script>
     let shiny_val = 1;
     let qu_val = 0;
+    let cor_count = [];
     let mode = [0,2];
     // mode[0] to mode[1]
 
@@ -121,13 +129,56 @@
     const answer = document.getElementById("answer");
     const show_WL = document.getElementById("show_WL");
     const fish = document.getElementById("fish");
+    const filter = document.getElementById("filter");
 
     check.addEventListener('click',ch);
     reset.addEventListener('click',re);
     quest.addEventListener('change',change);
     answer.addEventListener('change',change);
+    filter.addEventListener('change',filter_f);
     
     const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"}
+
+    function filter_f() {
+      if (show_WL.innerHTML == "단어보기"){
+        qu_lamda.forEach((word,index) => {
+          document.getElementById(`row_${index}`).style.display = "block";
+        })
+        if (filter.value == 0) {
+          qu_lamda.forEach((word,index) => {
+            if (!cor_count.includes(word)) {
+                document.getElementById(`row_${index}`).style.display = "none";
+            }
+          });
+        }
+        if (filter.value == 1) {
+          qu_lamda.forEach((word,index) => {
+            if (cor_count.includes(word)) {
+                document.getElementById(`row_${index}`).style.display = "none";
+            }
+          })
+        }
+      }
+      else{
+        quList[qu_val].forEach((word,index) => {
+          document.getElementById(`row_${index}`).style.display = "block";
+        })
+        if (filter.value == 0) {
+          quList[qu_val].forEach((word,index) => {
+            if (!cor_count.includes(word)) {
+                document.getElementById(`row_${index}`).style.display = "none";
+            }
+          });
+        }
+        if (filter.value == 1) {
+          quList[qu_val].forEach((word,index) => {
+            if (cor_count.includes(word)) {
+                document.getElementById(`row_${index}`).style.display = "none";
+            }
+          })
+        }
+      }
+    }
     
     function roll() {
       fish.classList.replace("fish_js","fish");
@@ -139,19 +190,20 @@
         var id = document.createElement('div');
         var input = document.createElement('input');
 
-        row.style = "display:flex;margin:4px;border-bottom:solid 1px black;width:100%"
+        row.style = "display:flex;margin-top:10px;border-bottom:solid 2px black;width:100%"
         row.id = `row_${index}`
         
         id.innerHTML = `${word[mode[0]]}:`;
-        id.style = "width:30%";
+        id.style = "width:100%";
 
         input.id = index;
-        input.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%"
+        input.style = "border:none;background-color:rgba(255,255,255,0.8);width:99%"
         
         row.appendChild(id);
         row.appendChild(input);
         q.appendChild(row)
-      })
+      });
+      filter_f()
     }
 
     function load(quN) {
@@ -197,9 +249,14 @@
         qu_lamda.forEach((word,index)=>{
           let cor = word[mode[1]].split(',').map(item => item.trim());
 
-
           if (cor.includes(document.getElementById(index).value)) {
             document.getElementById(`row_${index}`).classList.add("correct");
+            if (!cor_count.includes(word)) {
+              cor_count.push(word);
+              if (cor_count.length%20 && shiny_val<8) {
+                shiny_val *= 2;
+              }
+            }
           }
           else {
             document.getElementById(`row_${index}`).classList.add("wrong");
@@ -236,13 +293,20 @@
           var value = document.createElement('div');
   
           row.style = "display:flex;margin:4px;border-bottom:solid 1px black;width:100%"
+          if (cor_count.includes(word)){
+            row.classList.add("correct");
+          }
           row.id = `row_${index}`
           
           id.innerHTML = `${word[mode[0]]}:`;
           id.style = "width:30%";
-  
+
           value.innerHTML = `${word[mode[1]]}`;
-          value.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%"
+          value.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%";
+          if (!cor_count.includes(word)) {
+            value.innerHTML = '???';
+          }
+          
           
           row.appendChild(id);
           row.appendChild(value);
@@ -251,6 +315,7 @@
         show_WL.innerHTML = "문제풀기";
         reset.classList.replace('on','off');
         check.classList.replace('on','off');
+        filter_f();
       }
       else{
         show_WL.innerHTML = "단어보기";
@@ -262,7 +327,6 @@
     }
 
     show_WL.addEventListener('click',show_WL_f);
-
 
     function start(){
       quList = [[
@@ -365,7 +429,6 @@
       ["take place","?","일이 일어나다,일어나다","to happen"],
       ["what's more","?","게다가,더욱이","used to add a point that is even more important"]
 ]];
-
       load(0);
     }
   </script>  
