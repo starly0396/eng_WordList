@@ -259,9 +259,11 @@
             }
           }
           else {
-            document.getElementById(`row_${index}`).classList.add("wrong");
-            document.getElementById(index).value = word[mode[1]];
-            wrong++
+            if (!cor_count.includes(word)) {
+              document.getElementById(`row_${index}`).classList.add("wrong");
+              document.getElementById(index).value = word[mode[1]];
+              wrong++
+            }
           }
         })
         if (wrong >= qu_lamda.length-5){
