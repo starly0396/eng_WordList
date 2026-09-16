@@ -254,7 +254,7 @@
             if (!cor_count.includes(word)) {
               cor_count.push(word);
               localStorage.setItem('cor_count_s', cor_count);
-              if (cor_count.length%20 && shiny_val<8) {
+              if (cor_count.length%20==0 && shiny_val<8) {
                 shiny_val *= 2;
               }
             }
@@ -435,6 +435,14 @@
         if (data) {
             cor_count = data;
         }
+      for (let i = 1;i <= 3;i++) {
+        if (cor_count.length-20*i>=0 && shiny_val<8) {
+                  shiny_val *= 2;
+          }
+        else {
+          break;
+        }
+      }
       load(0);
     }
   </script>  
