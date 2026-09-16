@@ -38,11 +38,25 @@
         color : white;
         background-color : rgb(200,10,0);
       }
-      #fish {
-        position : fixed;
-        top : 50%;
-        left : 50%;
+      .fish {
+        display:none;
       }
+      .fish_js {
+        display:inline-block;
+        position : absolute;
+        top : 50%;
+        left : 150%;
+        animation-name : jumpscare;
+        animation-duration : 3s;
+      }
+      
+      @keyframes jumpscare{
+        0% {left: 5000%}
+        20% {left: 50%}
+        75% {left: 60%}
+        80% {left: 55%}
+      }
+
     </style>
   </head>
 
@@ -76,7 +90,9 @@
         <button id="reset" class="off">다시하다</button>
       </div>
     </div>
-    <img id="fish" src="fish.png" alt="대구" style="scale:4.5">
+    <div>
+      <img id="fish" class="fish" src="fish.png" alt="대구" style="scale:5">
+    </div>
   </body>
 
   <script>
@@ -94,6 +110,7 @@
     const quest = document.getElementById("quest");
     const answer = document.getElementById("answer");
     const show_WL = document.getElementById("show_WL");
+    const fish = document.getElementById("fish");
 
     check.addEventListener('click',ch);
     reset.addEventListener('click',re);
@@ -103,6 +120,7 @@
     const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"}
     
     function roll() {
+      fish.classList.replace("fish_js","fish");
       qu_lamda = quList[qu_val].slice();
       qu_lamda.sort(()=>Math.random()-0.5);
 
@@ -162,19 +180,26 @@
     
     function ch() {
       if (check.classList.contains('on')){
+        let wrong = 0;
         window.scrollTo(0, 0);
         check.classList.replace('on','off');
         reset.classList.replace('off','on');
         qu_lamda.forEach((word,index)=>{
           let cor = word[mode[1]].split(',').map(item => item.trim());
+
+
           if (cor.includes(document.getElementById(index).value)) {
             document.getElementById(`row_${index}`).classList.add("correct");
           }
           else {
             document.getElementById(`row_${index}`).classList.add("wrong");
-            document.getElementById(index).value = word[mode[1]]
+            document.getElementById(index).value = word[mode[1]];
+            wrong++
           }
         })
+        if (wrong >= qu_lamda.length-5){
+          fish.classList.replace("fish","fish_js");
+        }
       }
     }
     
