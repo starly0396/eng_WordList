@@ -253,6 +253,7 @@
             document.getElementById(`row_${index}`).classList.add("correct");
             if (!cor_count.includes(word)) {
               cor_count.push(word);
+              localStorage.setItem('cor_count_s', cor_count);
               if (cor_count.length%20 && shiny_val<8) {
                 shiny_val *= 2;
               }
@@ -328,7 +329,7 @@
     }
 
     show_WL.addEventListener('click',show_WL_f);
-
+    
     function start(){
       quList = [[
       ["admire", "v", "존경하다,동경하다", "to respect and like someone or their behavior"],
@@ -430,6 +431,10 @@
       ["take place","?","일이 일어나다,일어나다","to happen"],
       ["what's more","?","게다가,더욱이","used to add a point that is even more important"]
 ]];
+      const data = localStorage.getItem('cor_count_s');
+        if (data) {
+            cor_count = data;
+        }
       load(0);
     }
   </script>  
