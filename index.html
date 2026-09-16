@@ -42,22 +42,24 @@
         display:none;
       }
       .fish_js {
-        display:inline-block;
         position : absolute;
         top : 50%;
         left : 150%;
         animation-name : jumpscare;
         animation-duration : 3s;
+        animation-fill-mode : forwards;
+
       }
       
       @keyframes jumpscare{
-        0% {left: 5000%}
+        0% {
+          display:inline-block;
+          left: 5000%}
         20% {left: 50%}
         75% {left: 60%}
         80% {left: 55%}
-        90% {
-          display: none;
-        }
+        85% {display:none}
+        100% {display:none}
       }
 
     </style>
