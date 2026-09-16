@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <style>
+      html,body{
+        margin : 0;
+        overflow-x: hidden;
+        width: 100%;
+      }
       div.qlist {
         position : absolute;
         transform : translateX(-50%);
@@ -50,12 +55,9 @@
         animation-name : jumpscare;
         animation-duration : 3s;
       }
-      html,body{
-        margin : 0;
-        overflow-x: hidden;
-        width: 100%;
+      .shiny {
+        filter: invert(100%);
       }
-
       
       @keyframes jumpscare{
         0% {left: 1000%}
@@ -103,6 +105,7 @@
   </body>
 
   <script>
+    let shiny_val = 1;
     let qu_val = 0;
     let mode = [0,2];
     // mode[0] to mode[1]
@@ -206,6 +209,9 @@
         })
         if (wrong >= qu_lamda.length-5){
           fish.classList.replace("fish","fish_js");
+          if (Math.floor(Math.random()*(4096)+1) <= shiny_val) {
+            fish.classList.add("shiny");
+          }
         }
       }
     }
