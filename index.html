@@ -253,7 +253,7 @@
             document.getElementById(`row_${index}`).classList.add("correct");
             if (!cor_count.includes(word)) {
               cor_count.push(word);
-              localStorage.setItem('cor_count_s', JSON.stringify(cor_count));
+              localStorage.setItem('eng_wordlist_MdByStry_cor_count_s', JSON.stringify(cor_count));
               if (cor_count.length%20==0 && shiny_val<8) {
                 shiny_val *= 2;
               }
@@ -431,14 +431,14 @@
       ["take place","?","일이 일어나다,일어나다","to happen"],
       ["what's more","?","게다가,더욱이","used to add a point that is even more important"]
 ]];
-      const data = localStorage.getItem('cor_count_s');
+      const data = localStorage.getItem('eng_wordlist_MdByStry_cor_count_s');
         if (data) {
           try{
             cor_count = JSON.parse(data);
           }
           catch(e){
             cor_count = [];
-            localStorage.removeItem('cor_count_s');
+            localStorage.removeItem('eng_wordlist_MdByStry_cor_count_s');
           }
         }
       for (let i = 1;i <= 3;i++) {
