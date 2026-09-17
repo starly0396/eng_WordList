@@ -433,7 +433,13 @@
 ]];
       const data = localStorage.getItem('cor_count_s');
         if (data) {
+          try{
             cor_count = JSON.parse(data);
+          }
+          catch(e){
+            cor_count = [];
+            localStorage.removeItem('cor_count_s');
+          }
         }
       for (let i = 1;i <= 3;i++) {
         if (cor_count.length-20*i>=0 && shiny_val<8) {
