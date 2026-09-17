@@ -146,14 +146,14 @@
         })
         if (filter.value == 0) {
           qu_lamda.forEach((word,index) => {
-            if (!cor_count.includes(word)) {
+            if (!cor_count.includes(word.join('/'))) {
                 document.getElementById(`row_${index}`).style.display = "none";
             }
           });
         }
         if (filter.value == 1) {
           qu_lamda.forEach((word,index) => {
-            if (cor_count.includes(word)) {
+            if (cor_count.includes(word.join('/'))) {
                 document.getElementById(`row_${index}`).style.display = "none";
             }
           })
@@ -165,14 +165,14 @@
         })
         if (filter.value == 0) {
           quList[qu_val].forEach((word,index) => {
-            if (!cor_count.includes(word)) {
+            if (!cor_count.includes(word.join('/'))) {
                 document.getElementById(`row_${index}`).style.display = "none";
             }
           });
         }
         if (filter.value == 1) {
           quList[qu_val].forEach((word,index) => {
-            if (cor_count.includes(word)) {
+            if (cor_count.includes(word.join('/'))) {
                 document.getElementById(`row_${index}`).style.display = "none";
             }
           })
@@ -251,8 +251,8 @@
 
           if (cor.includes(document.getElementById(index).value)) {
             document.getElementById(`row_${index}`).classList.add("correct");
-            if (!cor_count.includes(word)) {
-              cor_count.push(word);
+            if (!cor_count.includes(word.join('/'))) {
+              cor_count.push(word.join('/'));
               localStorage.setItem('eng_wordlist_MdByStry_cor_count_s', JSON.stringify(cor_count));
               if (cor_count.length%20==0 && shiny_val<8) {
                 shiny_val *= 2;
@@ -260,7 +260,7 @@
             }
           }
           else {
-            if (!cor_count.includes(word)) {
+            if (!cor_count.includes(word.join('/'))) {
               document.getElementById(`row_${index}`).classList.add("wrong");
               document.getElementById(index).value = word[mode[1]];
               wrong++
@@ -296,7 +296,7 @@
           var value = document.createElement('div');
   
           row.style = "display:flex;margin:4px;border-bottom:solid 1px black;width:100%"
-          if (cor_count.includes(word)){
+          if (cor_count.includes(word.join('/'))){
             row.classList.add("correct");
           }
           row.id = `row_${index}`
@@ -306,7 +306,7 @@
 
           value.innerHTML = `${word[mode[1]]}`;
           value.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%";
-          if (!cor_count.includes(word)) {
+          if (!cor_count.includes(word.join('/'))) {
             value.innerHTML = '???';
           }
           
