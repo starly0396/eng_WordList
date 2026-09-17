@@ -253,7 +253,7 @@
             document.getElementById(`row_${index}`).classList.add("correct");
             if (!cor_count.includes(word)) {
               cor_count.push(word);
-              localStorage.setItem('cor_count_s', cor_count);
+              localStorage.setItem('cor_count_s', JSON.stringify(cor_count));
               if (cor_count.length%20==0 && shiny_val<8) {
                 shiny_val *= 2;
               }
@@ -433,7 +433,7 @@
 ]];
       const data = localStorage.getItem('cor_count_s');
         if (data) {
-            cor_count = data;
+            cor_count = JSON.parse(data);
         }
       for (let i = 1;i <= 3;i++) {
         if (cor_count.length-20*i>=0 && shiny_val<8) {
