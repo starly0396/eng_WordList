@@ -197,7 +197,7 @@
         id.style = "width:100%";
 
         input.id = index;
-        input.style = "border:none;background-color:rgba(255,255,255,0.8);width:99%"
+        input.style = "border:none;background-color:rgba(255,255,255,0.8);width:91%"
         
         row.appendChild(id);
         row.appendChild(input);
@@ -295,7 +295,7 @@
           var id = document.createElement('div');
           var value = document.createElement('div');
   
-          row.style = "display:flex;margin:4px;border-bottom:solid 1px black;width:100%"
+          row.style = "display:flex;margin-top:10px;margin-left:4px;border-bottom:solid 1px black;width:100%"
           if (cor_count.includes(word.join('/'))){
             row.classList.add("correct");
           }
@@ -305,7 +305,7 @@
           id.style = "width:30%";
 
           value.innerHTML = `${word[mode[1]]}`;
-          value.style = "border:none;background-color:rgba(255,255,255,0.8);width:65%";
+          value.style = "border:none;background-color:rgba(255,255,255,0.8);width:91%";
           if (!cor_count.includes(word.join('/'))) {
             value.innerHTML = '???';
           }
