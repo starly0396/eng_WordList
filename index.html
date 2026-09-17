@@ -265,6 +265,10 @@
               document.getElementById(`row_${index}`).classList.add("wrong");
               document.getElementById(index).value = word[mode[1]];
             }
+            else if (filter.value != 1) {
+              document.getElementById(`row_${index}`).classList.add("wrong");
+              document.getElementById(index).value = word[mode[1]];
+            }
           }
         })
         if (cor_ans <= 5){
