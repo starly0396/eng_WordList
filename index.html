@@ -242,7 +242,7 @@
     
     function ch() {
       if (check.classList.contains('on')){
-        let wrong = 0;
+        let cor_ans = 0;
         window.scrollTo(0, 0);
         check.classList.replace('on','off');
         reset.classList.replace('off','on');
@@ -251,6 +251,7 @@
 
           if (cor.includes(document.getElementById(index).value)) {
             document.getElementById(`row_${index}`).classList.add("correct");
+            cor_ans ++;
             if (!cor_count.includes(word.join('/'))) {
               cor_count.push(word.join('/'));
               localStorage.setItem('eng_wordlist_MdByStry_cor_count_s', JSON.stringify(cor_count));
@@ -263,11 +264,10 @@
             if (!cor_count.includes(word.join('/'))) {
               document.getElementById(`row_${index}`).classList.add("wrong");
               document.getElementById(index).value = word[mode[1]];
-              wrong++
             }
           }
         })
-        if (wrong >= qu_lamda.length-5){
+        if (cor_ans <= 5){
           fish.classList.replace("fish","fish_js");
           if (Math.floor(Math.random()*(4096)+1) <= shiny_val) {
             fish.classList.add("shiny");
