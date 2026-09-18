@@ -294,6 +294,7 @@
               document.getElementById(index).value = word[mode[1]];
             }
           }
+          document.getElementById(index).readOnly = true;
         })
         if (cor_ans <= 5){
           fish.classList.replace("fish","fish_js");
