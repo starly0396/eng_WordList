@@ -58,6 +58,19 @@
         animation-duration : 3s;
         animation-fill-mode:forwards;
       }
+      .cats {
+        position : fixed;
+        pointer-events: none;
+        transform : translateX(-50%);
+        left : 50%;
+        width : 500px;
+        height : 100%;
+      }
+      .cat {
+        position : absolute;
+        animation-name : falling;
+        animation-fill-mode : forwards;
+      }
       .shiny {
         filter: invert(100%);
       }
@@ -68,6 +81,11 @@
         75% {left: 35%}
         80% {left: 30%}
         100% {display:none}
+      }
+
+      @keyframes falling{
+        85% {opacity: 1}
+        100% {transform: translateY(400%);opacity: 0}
       }
 
     </style>
@@ -110,7 +128,9 @@
       </div>
     </div>
     <div>
-      <img id="fish" class="fish" src="fish.png" alt="대구" style="scale:1.15">
+      <img id="fish" class="fish" src="fish.png" alt="대구" style="scale:1.3">
+      <div id="cats" class="cats">
+      </div>
     </div>
   </body>
 
@@ -131,8 +151,9 @@
     const quest = document.getElementById("quest");
     const answer = document.getElementById("answer");
     const show_WL = document.getElementById("show_WL");
-    const fish = document.getElementById("fish");
     const filter = document.getElementById("filter");
+    const fish = document.getElementById("fish");
+    const cats = document.getElementById("cats")
 
     check.addEventListener('click',ch);
     reset.addEventListener('click',re);
@@ -242,7 +263,7 @@
         show_WL_f();
       }
     })
-    
+
     function ch() {
       if (check.classList.contains('on')){
         let cor_ans = 0;
@@ -278,6 +299,25 @@
           fish.classList.replace("fish","fish_js");
           if (Math.floor(Math.random()*(4096)+1) <= shiny_val) {
             fish.classList.add("shiny");
+          }
+        }
+        else {
+          cats.innerHTML = '';
+          for (let i = 0;i<ans_cor;i++){
+            let cat = document.createElement("img");
+            cat.alt = "cat";
+            cat.src = "cat.png";
+            cat.classList.add("cat");
+            cat.style.top = `-${Math.random()*45}%`;
+            cat.style.left = `${Math.random()*90-25}%`;
+            cat.style.scale = (Math.random()+0.5)*0.3;
+            cat.style.animationDuration = `${Math.random()*4+2.5}s`;
+
+            if (Math.floor(Math.random()*(4096)+1) <= shiny_val) {
+            cat.classList.add("shiny");
+          }
+            
+            cats.appendChild(cat);
           }
         }
       }
