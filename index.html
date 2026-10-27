@@ -16,7 +16,7 @@
         left : 50%;
         background-color : rgb(230,230,230);
         border-radius : 16px;
-        width : 500px;
+        width : 100%;
         border : solid 1px black;
 
         display : flex;
@@ -354,9 +354,9 @@
 
           value.innerHTML = `${word[mode[1]]}`;
           value.style = "border:none;background-color:rgba(255,255,255,0.8);width:100%";
-          if (!cor_count.includes(word.join('/'))) {
+          /*if (!cor_count.includes(word.join('/'))) {
             value.innerHTML = '???';
-          }
+          }*/
           
           row.appendChild(id);
           row.appendChild(value);
