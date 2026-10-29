@@ -158,7 +158,7 @@
     answer.addEventListener('change',change);
     filter.addEventListener('change',filter_f);
     
-    const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"}
+    const pos = {"명사":"n","대명사":"p","동사":"v","형용사":"a","부사":"ad","접속사":"conj","감탄사":"intj","전치사":"prep"}
 
     function filter_f() {
       if (show_WL.innerHTML == "단어보기"){
@@ -264,12 +264,19 @@
     function ch() {
       if (check.classList.contains('on')){
         let cor_ans = 0;
+        let qu_mode_eq_1 = mode[1]==1;
         window.scrollTo(0, 0);
         check.classList.replace('on','off');
         reset.classList.replace('off','on');
         qu_lamda.forEach((word,index)=>{
           let cor = word[mode[1]].split(',').map(item => item.trim());
-
+          
+          if (qu_mode_eq_1) {
+            if (document.getElementById(index).value in pos){
+              document.getElementById(index) = value[document.getElementById(index)];
+            }
+          }
+          
           if (cor.includes(document.getElementById(index).value) || word[mode[1]].includes(document.getElementById(index).value)) {
             document.getElementById(`row_${index}`).classList.add("correct");
             cor_ans ++;
@@ -528,7 +535,7 @@
         ["","","",""]
 ]];
       quList.forEach((w,i)=>{
-        var part_n = document.createElement('option');
+        let part_n = document.createElement('option');
         part_n.value = i;
         part_n.innerHTML = `${i+1}단원`;
 
