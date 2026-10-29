@@ -530,6 +530,13 @@
         ["","","",""],
         ["","","",""]
 ]];
+      quList.forEach((w,i)=>{
+        var part_n = document.createElement('option');
+        part_n.value = i;
+        part_n.innerHTML = `${i+1}단원`;
+
+        part.appendChild(part_n);
+      });
       const data = localStorage.getItem('eng_wordlist_MdByStry_cor_count_s');
         if (data) {
           try{
