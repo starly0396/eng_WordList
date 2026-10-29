@@ -277,7 +277,7 @@
             }
           }*/
           
-          if (cor.includes(document.getElementById(index).value) || word[mode[1]].includes(document.getElementById(index).value)) {
+          if (cor.includes(document.getElementById(index).value)/* || word[mode[1]].includes(document.getElementById(index).value)*/) {
             document.getElementById(`row_${index}`).classList.add("correct");
             cor_ans ++;
             if (!cor_count.includes(word.join('/'))) {
