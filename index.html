@@ -268,14 +268,14 @@
         check.classList.replace('on','off');
         reset.classList.replace('off','on');
         qu_lamda.forEach((word,index)=>{
-          if (mode[1]!=3) {
-            let cor = word[mode[1]].split(',').map(item => item.trim());
+          if (mode[1]==3) {
+            let cor = word[mode[1]].split(';').map(item => item.trim());
           }
           else if (mode[1]==1) {
-            
+            let cor = word[mode[1]].map(item => pos[item] || item);
           }
           else {
-            let cor = word[mode[1]].split(';').map(item => item.trim());
+            let cor = word[mode[1]].split(',').map(item => item.trim());
           }
           
           if (cor.includes(document.getElementById(index).value)/* || word[mode[1]].includes(document.getElementById(index).value)*/) {
