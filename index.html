@@ -264,18 +264,19 @@
     function ch() {
       if (check.classList.contains('on')){
         let cor_ans = 0;
-        let qu_mode_eq_1 = mode[1]==1;
         window.scrollTo(0, 0);
         check.classList.replace('on','off');
         reset.classList.replace('off','on');
         qu_lamda.forEach((word,index)=>{
-          let cor = word[mode[1]].split(',').map(item => item.trim());
-          
-          /*if (qu_mode_eq_1) {
-            if (document.getElementById(index).value in pos){
-              document.getElementById(index) = value[document.getElementById(index)];
-            }
-          }*/
+          if (mode[1]!=3) {
+            let cor = word[mode[1]].split(',').map(item => item.trim());
+          }
+          else if (mode[1]==1) {
+            
+          }
+          else {
+            let cor = word[mode[1]].split(';').map(item => item.trim());
+          }
           
           if (cor.includes(document.getElementById(index).value)/* || word[mode[1]].includes(document.getElementById(index).value)*/) {
             document.getElementById(`row_${index}`).classList.add("correct");
@@ -533,6 +534,57 @@
         ["shut down","?","기계를 멈추다,멈추다,정지하다","to stop operating"],
         ["sort out","?","가려내다,골라내다","to separate something from a larger group"],
         ["when in doubt","?","의심스러울 때는","when in a state of being uncertain or unsure"]
+],[
+        ["affordable","a","가격이 알맞은,알맞은,저렴한,여유로운,여유를 가질만한","having a cost that is not too high"],
+        ["anchor","v,n","닻을 내리다,닻","to fix something firmly in place"],
+        ["announce","v","발표하다,알리다","to officially tell people about something"],
+        ["appeal","v","관심을 끌다, 흥미를 끌다","to attract or interest somebody"],
+        ["assume","v","사실일 것으로 추정하다,추정하다,추측하다","to thing that something is true, even though you do not have any proof"],
+        ["budget","n","예산","the money that is available to a person or an organization"],
+        ["common","a","흔한","happening often;existing in large numbers in many places"],
+        ["concern","v","관계가 있다,영향을 미치다,고려하다","to affect or involve somebody or something"],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""]
 ]];
       quList.forEach((w,i)=>{
         let part_n = document.createElement('option');
