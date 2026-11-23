@@ -158,7 +158,7 @@
     answer.addEventListener('change',change);
     filter.addEventListener('change',filter_f);
     
-    const pos = {"n":"명사","p":"대명사","v":"동사","a":"형용사","ad":"부사","conj":"접속사","intj":"감탄사","prep":"전치사"};
+    const pos = {"명사":"n","대명사":"p","동사":"v","형용사":"a","부사":"ad","접속사":"conj","감탄사":"intj","전치사":"prep"};
 
     function filter_f() {
       if (show_WL.innerHTML == "단어보기"){
@@ -272,14 +272,11 @@
           if (mode[1]==3) {
             cor = word[mode[1]].split(';').map(item => item.trim());
           }
-          else if (mode[1]==1) {
-            cor = `${word[mode[1]]},${pos[item]}`;
-          }
           else {
             cor = word[mode[1]].split(',').map(item => item.trim());
           }
           
-          if (cor.includes(document.getElementById(index).value)/* || word[mode[1]].includes(document.getElementById(index).value)*/) {
+          if (cor.includes(document.getElementById(index).value) || cor.includes(pos[document.getElementById(index).value])) {
             document.getElementById(`row_${index}`).classList.add("correct");
             cor_ans ++;
             if (!cor_count.includes(word.join('/'))) {
