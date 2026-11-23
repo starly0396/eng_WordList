@@ -273,7 +273,7 @@
             cor = word[mode[1]].split(';').map(item => item.trim());
           }
           else if (mode[1]==1) {
-            cor = [word[mode[1]],pos[item]];
+            cor = `${word[mode[1]]},${pos[item]}`;
           }
           else {
             cor = word[mode[1]].split(',').map(item => item.trim());
